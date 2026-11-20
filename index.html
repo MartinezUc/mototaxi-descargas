@@ -1,0 +1,2649 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mototaxi — Aplicación Oficial para Campeche y Yucatán</title>
+  <meta name="description" content="Descarga oficial de Mototaxi Pasajero y Mototaxi Conductor para Android. Viajes y mandados locales con conductores verificados en Campeche y Yucatán." />
+  <meta name="theme-color" content="#0B3B32" />
+  <meta property="og:title" content="Mototaxi — Aplicación Oficial Android" />
+  <meta property="og:description" content="Pide tu mototaxi o mandado con conductores verificados de tu localidad en Campeche y Yucatán. Descarga directa para Android." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-pasajero.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #176B5B;
+      --primary-dark: #0F4D42;
+      --primary-deeper: #082C25;
+      --primary-ink: #0B3B32;
+      --primary-light: #DFEFEA;
+      --primary-tint: #EFF6F3;
+      --accent: #F2B84B;
+      --accent-strong: #DF9E22;
+      --accent-soft: #FDF3DC;
+      --accent-ink: #6E4700;
+      --bg: #F5F5F0;
+      --bg-warm: #ECECE4;
+      --surface: #FFFFFF;
+      --text: #11231F;
+      --text-secondary: #4A615B;
+      --text-tertiary: #6E857F;
+      --border: #D9E5E0;
+      --border-strong: #C3D6CF;
+      --success: #188656;
+      --shadow-xs: 0 2px 8px rgba(8, 44, 37, 0.04);
+      --shadow-sm: 0 10px 28px rgba(8, 44, 37, 0.06);
+      --shadow-md: 0 20px 48px rgba(8, 44, 37, 0.10);
+      --shadow-lg: 0 28px 64px rgba(8, 44, 37, 0.18);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 11px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* =========================================================
+       HEADER (Elegante, compacto en móvil con menú desplegable)
+       ========================================================= */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 44, 37, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 12px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+      flex-shrink: 0;
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1.5px solid rgba(242, 184, 75, 0.55);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      background: var(--primary-dark);
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .brand-name {
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 1.08rem;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .brand-region {
+      color: var(--accent);
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .desktop-nav a {
+      color: rgba(223, 239, 234, 0.86);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 8px 13px;
+      border-radius: 999px;
+      transition: color 0.18s ease, background 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .desktop-nav a:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .header-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--accent);
+      color: #13221E;
+      font-weight: 800;
+      font-size: 0.83rem;
+      padding: 9px 15px;
+      border-radius: 999px;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(242, 184, 75, 0.25);
+      transition: transform 0.15s ease, background 0.18s ease;
+    }
+
+    .header-cta:hover {
+      background: #F7C463;
+      transform: translateY(-1px);
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.07);
+      color: #FFFFFF;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .menu-toggle .icon-close {
+      display: none;
+    }
+
+    .topbar.menu-open .menu-toggle .icon-menu {
+      display: none;
+    }
+
+    .topbar.menu-open .menu-toggle .icon-close {
+      display: block;
+    }
+
+    /* Mobile Drawer */
+    .mobile-drawer {
+      display: none;
+      background: #0A332B;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(242, 184, 75, 0.25);
+      padding: 14px 20px 20px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+    }
+
+    .topbar.menu-open .mobile-drawer {
+      display: block;
+      animation: slideDown 0.18s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .mobile-nav-list {
+      list-style: none;
+      display: grid;
+      gap: 4px;
+      margin-bottom: 14px;
+    }
+
+    .mobile-nav-list a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: #EAF5F2;
+      font-weight: 600;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .mobile-nav-list a:active {
+      background: rgba(242, 184, 75, 0.15);
+    }
+
+    .mobile-drawer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .drawer-dl-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 10px;
+      border-radius: 11px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .drawer-dl-btn.pax {
+      background: var(--primary);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .drawer-dl-btn.drv {
+      background: var(--accent);
+      color: #13221E;
+    }
+
+    @media (max-width: 860px) {
+      .desktop-nav {
+        display: none;
+      }
+      .menu-toggle {
+        display: inline-flex;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .brand-region {
+        display: none;
+      }
+      .header-cta span.cta-extra {
+        display: none;
+      }
+    }
+
+    /* =========================================================
+       HERO EDITORIAL CON PATRÓN SUTIL Y TARJETA DE COMPARTIR
+       ========================================================= */
+    .hero {
+      position: relative;
+      background-color: var(--primary-deeper);
+      background-image:
+        radial-gradient(circle at 82% 18%, rgba(242, 184, 75, 0.16), transparent 44%),
+        radial-gradient(circle at 12% 88%, rgba(23, 107, 91, 0.55), transparent 50%),
+        linear-gradient(160deg, #07251F 0%, #0D443A 55%, #145E50 100%);
+      color: #FFFFFF;
+      padding: 56px 0 86px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(242, 184, 75, 0.35);
+      font-size: 0.77rem;
+      font-weight: 700;
+      color: #F8E8C2;
+      letter-spacing: 0.03em;
+      margin-bottom: 20px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4AE89A;
+      box-shadow: 0 0 0 4px rgba(74, 232, 154, 0.18);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.05rem, 4.5vw, 3.25rem);
+      line-height: 1.09;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+      max-width: 640px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-lead {
+      font-size: clamp(1rem, 1.6vw, 1.12rem);
+      color: rgba(226, 241, 237, 0.88);
+      max-width: 560px;
+      line-height: 1.62;
+      margin-bottom: 28px;
+    }
+
+    .hero-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 600px;
+    }
+
+    .pillar-item {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pillar-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(242, 184, 75, 0.16);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+    }
+
+    .pillar-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.25;
+    }
+
+    .pillar-sub {
+      font-size: 0.75rem;
+      color: rgba(214, 235, 229, 0.74);
+      line-height: 1.3;
+    }
+
+    /* Right Hero Panel (Desktop QR + Share / Mobile Compact Share Strip) */
+    .share-panel {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: var(--radius-xl);
+      padding: 26px 24px;
+      text-align: center;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.22);
+    }
+
+    .share-panel-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .qr-box {
+      background: #FFFFFF;
+      width: 164px;
+      height: 164px;
+      margin: 0 auto 14px;
+      padding: 10px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+    }
+
+    .qr-box img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .share-panel h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .share-panel p {
+      font-size: 0.82rem;
+      color: rgba(223, 239, 234, 0.8);
+      margin-bottom: 14px;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 11px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(242, 184, 75, 0.45);
+      background: rgba(242, 184, 75, 0.14);
+      color: #FFF6DF;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.15s ease;
+    }
+
+    .share-btn:hover {
+      background: rgba(242, 184, 75, 0.24);
+      transform: translateY(-1px);
+    }
+
+    .mobile-qr-toggle {
+      display: none;
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        padding: 36px 0 68px;
+      }
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .hero-pillars {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .pillar-item {
+        flex-direction: row;
+        align-items: center;
+        padding: 10px 13px;
+        gap: 12px;
+      }
+      .share-panel {
+        padding: 16px;
+        border-radius: 18px;
+        text-align: left;
+      }
+      .share-panel-eyebrow,
+      .share-panel p {
+        display: none;
+      }
+      .share-panel h3 {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+      .qr-box {
+        display: none;
+        margin: 14px auto 4px;
+      }
+      .share-panel.qr-visible .qr-box {
+        display: grid;
+      }
+      .share-actions-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+      .mobile-qr-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 11px 13px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        color: #FFFFFF;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+    }
+
+    /* =========================================================
+       TARJETAS DE DESCARGA (Pasajero & Conductor)
+       ========================================================= */
+    .downloads-section {
+      margin-top: -44px;
+      position: relative;
+      z-index: 10;
+      padding-bottom: 64px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    @media (max-width: 820px) {
+      .downloads-section {
+        margin-top: -32px;
+        padding-bottom: 48px;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+    }
+
+    .app-card {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      padding: 30px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .app-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .app-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+    }
+
+    .app-card.passenger-card::before {
+      background: linear-gradient(90deg, var(--primary-dark), #23967F);
+    }
+
+    .app-card.driver-card::before {
+      background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .app-identity {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .app-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(8, 44, 37, 0.16);
+      border: 1px solid rgba(8, 44, 37, 0.08);
+    }
+
+    .app-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .role-kicker {
+      font-size: 0.71rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .driver-card .role-kicker {
+      color: var(--accent-ink);
+    }
+
+    .app-card h2 {
+      font-size: 1.38rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.18;
+    }
+
+    .version-badge {
+      background: var(--primary-tint);
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .driver-card .version-badge {
+      background: var(--accent-soft);
+      color: var(--accent-ink);
+      border-color: rgba(223, 158, 34, 0.3);
+    }
+
+    .app-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      line-height: 1.55;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: grid;
+      gap: 11px;
+      margin-bottom: 26px;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.91rem;
+      color: var(--text);
+      line-height: 1.48;
+    }
+
+    .check-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .driver-card .check-badge {
+      background: var(--accent-soft);
+      color: var(--accent-ink);
+    }
+
+    .download-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 0.98rem;
+      letter-spacing: -0.01em;
+      text-align: center;
+      transition: transform 0.15s ease, filter 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .download-btn.primary {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #FFFFFF;
+      box-shadow: 0 10px 24px rgba(15, 77, 66, 0.24);
+    }
+
+    .download-btn.accent {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #14221E;
+      box-shadow: 0 10px 24px rgba(223, 158, 34, 0.26);
+    }
+
+    .download-btn:hover {
+      filter: brightness(1.04);
+      transform: translateY(-1px);
+    }
+
+    .apk-meta {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.77rem;
+      font-weight: 600;
+      color: var(--text-tertiary);
+    }
+
+    @media (max-width: 520px) {
+      .app-card {
+        padding: 22px 20px;
+      }
+      .card-head {
+        flex-wrap: wrap;
+      }
+    }
+
+    /* =========================================================
+       SECCIONES GENERALES & ENCABEZADOS EDITORIALES
+       ========================================================= */
+    .section {
+      padding: 68px 0;
+    }
+
+    .section-tinted {
+      background: var(--bg-warm);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-head {
+      max-width: 660px;
+      margin-bottom: 38px;
+    }
+
+    .section-head.centered {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 18px;
+      height: 2px;
+      background: var(--accent-strong);
+      border-radius: 2px;
+    }
+
+    .section-head.centered .kicker::after {
+      content: "";
+      width: 18px;
+      height: 2px;
+      background: var(--accent-strong);
+      border-radius: 2px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.16;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .section-head p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       NOVEDADES — BENTO GRID ASIMÉTRICO (Cero aspecto genérico)
+       ========================================================= */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .bento-card {
+      grid-column: span 4;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .bento-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .bento-card.featured-dark {
+      grid-column: span 7;
+      background: linear-gradient(145deg, var(--primary-deeper), var(--primary-dark));
+      color: #FFFFFF;
+      border-color: transparent;
+    }
+
+    .bento-card.featured-warm {
+      grid-column: span 5;
+      background: linear-gradient(145deg, #FFF9EB, #F9EBC8);
+      border-color: rgba(223, 158, 34, 0.35);
+    }
+
+    .bento-card.featured-dark p {
+      color: rgba(223, 239, 234, 0.86);
+    }
+
+    .bento-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .bento-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--primary-tint);
+      color: var(--primary-dark);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .bento-card.featured-dark .bento-icon {
+      background: rgba(242, 184, 75, 0.18);
+      color: var(--accent);
+    }
+
+    .bento-card.featured-warm .bento-icon {
+      background: rgba(110, 71, 0, 0.1);
+      color: var(--accent-ink);
+    }
+
+    .bento-tag {
+      font-size: 0.71rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--primary-tint);
+      color: var(--primary-dark);
+    }
+
+    .bento-card.featured-dark .bento-tag {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--accent);
+    }
+
+    .bento-card.featured-warm .bento-tag {
+      background: rgba(110, 71, 0, 0.1);
+      color: var(--accent-ink);
+    }
+
+    .bento-card h3 {
+      font-size: 1.14rem;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      line-height: 1.28;
+      margin-bottom: 6px;
+    }
+
+    .bento-card.featured-dark h3 {
+      font-size: 1.32rem;
+    }
+
+    .bento-card p {
+      font-size: 0.91rem;
+      color: var(--text-secondary);
+      line-height: 1.56;
+    }
+
+    .town-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .town-pill {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #EAF5F2;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    @media (max-width: 960px) {
+      .bento-card,
+      .bento-card.featured-dark,
+      .bento-card.featured-warm {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section {
+        padding: 52px 0;
+      }
+      .bento-card,
+      .bento-card.featured-dark,
+      .bento-card.featured-warm {
+        grid-column: span 12;
+        padding: 20px;
+      }
+    }
+
+    /* =========================================================
+       GUÍA VISUAL INTERACTIVA (Con capturas reales de la app)
+       ========================================================= */
+    .segmented-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 36px;
+    }
+
+    .segmented-control {
+      display: inline-grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--bg-warm);
+      padding: 5px;
+      border-radius: 16px;
+      border: 1px solid var(--border-strong);
+      gap: 4px;
+      max-width: 100%;
+    }
+
+    .role-tab-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: all 0.18s ease;
+    }
+
+    .role-tab-btn.active-pax {
+      background: var(--primary-dark);
+      color: #FFFFFF;
+      box-shadow: 0 6px 18px rgba(15, 77, 66, 0.22);
+    }
+
+    .role-tab-btn.active-drv {
+      background: var(--accent);
+      color: #13221E;
+      box-shadow: 0 6px 18px rgba(223, 158, 34, 0.28);
+    }
+
+    @media (max-width: 560px) {
+      .segmented-control {
+        width: 100%;
+        grid-template-columns: 1fr;
+      }
+      .role-tab-btn {
+        padding: 11px 14px;
+        font-size: 0.88rem;
+      }
+    }
+
+    .guide-panel {
+      display: none;
+      gap: 22px;
+    }
+
+    .guide-panel.active {
+      display: grid;
+    }
+
+    .guide-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      box-shadow: var(--shadow-xs);
+      display: grid;
+      grid-template-columns: 256px 1fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    @media (max-width: 780px) {
+      .guide-row {
+        grid-template-columns: 1fr;
+        padding: 22px 20px;
+        gap: 20px;
+      }
+    }
+
+    .phone-frame {
+      width: 100%;
+      max-width: 244px;
+      margin: 0 auto;
+      background: #0D1513;
+      border-radius: 28px;
+      padding: 9px;
+      box-shadow: 0 18px 40px rgba(8, 44, 37, 0.20);
+      border: 1.5px solid #2A3F3A;
+      cursor: zoom-in;
+      position: relative;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .phone-frame:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 24px 48px rgba(8, 44, 37, 0.26);
+    }
+
+    .phone-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 20px;
+      background: #182522;
+    }
+
+    .zoom-hint {
+      position: absolute;
+      right: 15px;
+      bottom: 15px;
+      background: rgba(8, 44, 37, 0.92);
+      color: #FFFFFF;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(242, 184, 75, 0.55);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      pointer-events: none;
+    }
+
+    .guide-step-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .guide-step-index {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: var(--primary-dark);
+      color: var(--accent);
+    }
+
+    .guide-step-label {
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+    }
+
+    .guide-step-label.gold {
+      color: var(--accent-ink);
+    }
+
+    .guide-content h3 {
+      font-size: 1.32rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+      line-height: 1.24;
+    }
+
+    .guide-content > p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+
+    .guide-points {
+      list-style: none;
+      display: grid;
+      gap: 11px;
+    }
+
+    .guide-points li {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .point-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      background: var(--primary-tint);
+      border: 1px solid var(--border);
+      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 0.76rem;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .guide-tip {
+      margin-top: 16px;
+      background: var(--primary-tint);
+      border-left: 3px solid var(--primary);
+      padding: 11px 14px;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+    }
+
+    .guide-tip strong {
+      color: var(--primary-dark);
+    }
+
+    /* =========================================================
+       INSTALACIÓN EN ANDROID (Línea de pasos clara)
+       ========================================================= */
+    .apk-explainer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .apk-explainer-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: var(--accent-soft);
+      color: var(--accent-ink);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .apk-explainer strong {
+      display: block;
+      font-size: 0.96rem;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .apk-explainer p {
+      font-size: 0.89rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 940px) {
+      .steps-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+      .apk-explainer {
+        padding: 18px;
+      }
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .step-num {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-tint);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: inline-block;
+      align-self: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .step-card h3 {
+      font-size: 1.04rem;
+      font-weight: 800;
+      margin-bottom: 7px;
+      letter-spacing: -0.01em;
+    }
+
+    .step-card p {
+      font-size: 0.89rem;
+      color: var(--text-secondary);
+      line-height: 1.54;
+    }
+
+    /* =========================================================
+       SEGURIDAD, INFRAESTRUCTURA Y FIRMA SHA-256
+       ========================================================= */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    @media (max-width: 760px) {
+      .tech-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tech-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .tech-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .tech-card h3 {
+      font-size: 1.04rem;
+      font-weight: 800;
+      margin-bottom: 5px;
+      letter-spacing: -0.01em;
+    }
+
+    .tech-card p {
+      font-size: 0.89rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .signature-box {
+      margin-top: 22px;
+      background: var(--primary-deeper);
+      color: #E7F5F1;
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .signature-label {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 3px;
+    }
+
+    .signature-sub {
+      font-size: 0.82rem;
+      color: rgba(223, 239, 234, 0.76);
+    }
+
+    .signature-code {
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(242, 184, 75, 0.3);
+      padding: 9px 13px;
+      border-radius: 10px;
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    /* =========================================================
+       PREGUNTAS FRECUENTES & FOOTER
+       ========================================================= */
+    .faq-list {
+      max-width: 780px;
+      margin: 0 auto;
+      display: grid;
+      gap: 10px;
+    }
+
+    details.faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 17px 20px;
+      transition: border-color 0.18s ease;
+    }
+
+    details.faq-item[open] {
+      border-color: var(--primary);
+    }
+
+    details.faq-item summary {
+      font-weight: 700;
+      font-size: 0.96rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+
+    details.faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-chevron {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: var(--primary-tint);
+      color: var(--primary-dark);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    details.faq-item[open] .faq-chevron {
+      transform: rotate(45deg);
+      background: var(--primary-dark);
+      color: #FFFFFF;
+    }
+
+    details.faq-item p {
+      margin-top: 11px;
+      color: var(--text-secondary);
+      font-size: 0.91rem;
+      line-height: 1.58;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 20, 17, 0.92);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .lightbox-inner img {
+      max-height: 80vh;
+      max-width: 100%;
+      width: auto;
+      margin: 0 auto;
+      display: block;
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      border: 1.5px solid rgba(242, 184, 75, 0.45);
+    }
+
+    .lightbox-caption {
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 12px;
+    }
+
+    .lightbox-close {
+      margin-top: 12px;
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 8px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    footer {
+      background: var(--primary-deeper);
+      color: rgba(223, 239, 234, 0.72);
+      padding: 38px 0;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    footer strong {
+      color: #FFFFFF;
+    }
+
+    @media (max-width: 640px) {
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header fijo limpio y adaptable a móvil -->
+  <header class="topbar" id="topbar">
+    <div class="container topbar-inner">
+      <a href="#" class="brand">
+        <span class="brand-logo">
+          <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-pasajero.png" alt="Mototaxi" />
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">Mototaxi</span>
+          <span class="brand-region">Campeche · Yucatán</span>
+        </span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Secciones principales">
+        <a href="#descargar">Aplicaciones</a>
+        <a href="#novedades">Novedades</a>
+        <a href="#guia-uso">Cómo funciona</a>
+        <a href="#como-instalar">Instalación</a>
+        <a href="#seguridad">Seguridad</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="#descargar" class="header-cta">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3v12"></path>
+            <path d="m7 10 5 5 5-5"></path>
+            <path d="M5 21h14"></path>
+          </svg>
+          <span>Descargar<span class="cta-extra"> APK</span></span>
+        </a>
+        <button
+          type="button"
+          class="menu-toggle"
+          id="menuToggle"
+          aria-expanded="false"
+          aria-controls="mobileDrawer"
+          aria-label="Abrir menú de navegación"
+        >
+          <svg class="icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+          <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+            <line x1="6" y1="18" x2="18" y2="6"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú desplegable en celular -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <ul class="mobile-nav-list">
+        <li>
+          <a href="#descargar" class="mobile-nav-link">
+            <span>Descargar aplicaciones</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="#novedades" class="mobile-nav-link">
+            <span>Lo nuevo en la versión 1.3</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="#guia-uso" class="mobile-nav-link">
+            <span>Guía paso a paso con capturas</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="#como-instalar" class="mobile-nav-link">
+            <span>Cómo instalar en Android</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="#seguridad" class="mobile-nav-link">
+            <span>Seguridad y verificación</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+        </li>
+      </ul>
+      <div class="mobile-drawer-grid">
+        <a
+          href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Pasajero.apk"
+          class="drawer-dl-btn pax mobile-nav-link"
+        >
+          APK Pasajero
+        </a>
+        <a
+          href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Conductor.apk"
+          class="drawer-dl-btn drv mobile-nav-link"
+        >
+          APK Conductor
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Principal -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="status-tag">
+          <span class="status-dot"></span>
+          <span>DISTRIBUCIÓN OFICIAL ANDROID · CAMPECHE Y YUCATÁN</span>
+        </div>
+        <h1>Tu mototaxi de confianza, <em>directo a tu puerta.</em></h1>
+        <p class="hero-lead">
+          Conectamos a vecinos con mototaxistas verificados de su propia localidad para viajes diarios y mandados. Sin intermediarios, sin comisiones y sin pedir tarjetas bancarias.
+        </p>
+
+        <div class="hero-pillars">
+          <div class="pillar-item">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="pillar-title">Padrón verificado</div>
+              <div class="pillar-sub">INE y placa fotografiada</div>
+            </div>
+          </div>
+
+          <div class="pillar-item">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="pillar-title">PIN de 4 números</div>
+              <div class="pillar-sub">Teléfono privado siempre</div>
+            </div>
+          </div>
+
+          <div class="pillar-item">
+            <div class="pillar-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div>
+              <div class="pillar-title">Por localidad exacta</div>
+              <div class="pillar-sub">+1,200 pueblos y comisarías</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="share-panel" id="sharePanel">
+        <div class="share-panel-eyebrow"> Pásala a un vecino o familiar </div>
+        <div class="qr-box" id="qrContainer" aria-label="Código QR de descarga"></div>
+        <h3>¿Quieres compartir la aplicación?</h3>
+        <p>Escanea desde otro teléfono o envía el enlace directo de descarga.</p>
+        <div class="share-actions-row">
+          <button type="button" class="share-btn" id="shareBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            <span id="shareBtnLabel">Compartir enlace</span>
+          </button>
+          <button type="button" class="mobile-qr-toggle" id="qrToggleBtn">
+            Ver QR
+          </button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Tarjetas de Descarga -->
+  <section class="downloads-section" id="descargar">
+    <div class="container">
+      <div class="cards-grid">
+        <!-- Pasajero -->
+        <article class="app-card passenger-card">
+          <div>
+            <div class="card-head">
+              <div class="app-identity">
+                <div class="app-icon">
+                  <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-pasajero.png" alt="Ícono Mototaxi Pasajero" />
+                </div>
+                <div>
+                  <span class="role-kicker">Para vecinos y familias</span>
+                  <h2>Mototaxi Pasajero</h2>
+                </div>
+              </div>
+              <span class="version-badge mono" id="paxVersionBadge">v1.3.4 · Oficial</span>
+            </div>
+            <p class="app-desc" id="paxNotes">
+              Solicita viajes o mandados desde tu casa, esquina o mercado, tanto para ti como para un familiar.
+            </p>
+            <ul class="feature-list">
+              <li>
+                <span class="check-badge" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span><strong>Tres formas de pedir:</strong> usa tu GPS actual, fija tu esquina en el mapa o escribe referencias como se acostumbra en tu pueblo.</span>
+              </li>
+              <li>
+                <span class="check-badge" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span><strong>Abordaje seguro:</strong> foto real del chofer, matrícula validada por administración y código PIN de 4 dígitos.</span>
+              </li>
+              <li>
+                <span class="check-badge" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span><strong>Para otra persona y objetos olvidados:</strong> envía el PIN a un familiar en 1 toque o abre chat de 24 h si dejaste algo en la unidad.</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <a
+              id="paxDownloadBtn"
+              class="download-btn primary"
+              href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Pasajero.apk"
+            >
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Descargar Mototaxi Pasajero (.APK)</span>
+            </a>
+            <div class="apk-meta">
+              <span>Android 7.0 o superior</span>
+              <span>Instalador firmado · ~39 MB</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Conductor -->
+        <article class="app-card driver-card">
+          <div>
+            <div class="card-head">
+              <div class="app-identity">
+                <div class="app-icon">
+                  <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-conductor.png" alt="Ícono Mototaxi Conductor" />
+                </div>
+                <div>
+                  <span class="role-kicker">Para operadores locales</span>
+                  <h2>Mototaxi Conductor</h2>
+                </div>
+              </div>
+              <span class="version-badge mono" id="drvVersionBadge">v1.3.4 · Oficial</span>
+            </div>
+            <p class="app-desc" id="drvNotes">
+              Herramienta de trabajo para mototaxistas verificados. Recibe solicitudes cercanas de tu localidad en tiempo real.
+            </p>
+            <ul class="feature-list">
+              <li>
+                <span class="check-badge" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span><strong>Distancia real y orden inteligente:</strong> consulta a cuántos metros está cada pasajero antes de aceptar el servicio.</span>
+              </li>
+              <li>
+                <span class="check-badge" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span><strong>Cambio rápido de localidad:</strong> cambia de pueblo en un toque o detéctalo con tu GPS desde tu pantalla principal.</span>
+              </li>
+              <li>
+                <span class="check-badge" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span><strong>Alertas sonoras y reputación:</strong> recibe avisos incluso con pantalla bloqueada y construye tu historial de calificaciones.</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <a
+              id="drvDownloadBtn"
+              class="download-btn accent"
+              href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Conductor.apk"
+            >
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>Descargar Mototaxi Conductor (.APK)</span>
+            </a>
+            <div class="apk-meta">
+              <span>Android 7.0 o superior</span>
+              <span>Instalador firmado · ~39 MB</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Novedades en Bento Grid Editorial -->
+  <section class="section section-tinted" id="novedades">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">Actualización 1.3</span>
+        <h2>Diseñada para cómo realmente nos movemos en nuestros pueblos</h2>
+        <p>Cada mejora nace de casos reales entre pasajeros, familias y mototaxistas de la región.</p>
+      </div>
+
+      <div class="bento-grid">
+        <article class="bento-card featured-dark">
+          <div>
+            <div class="bento-top">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="10" r="3"></circle>
+                  <path d="M12 2a8 8 0 0 0-8 8c0 5.4 7 11.5 7.3 11.8a1 1 0 0 0 1.4 0C13 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"></path>
+                </svg>
+              </div>
+              <span class="bento-tag">Campeche y Yucatán</span>
+            </div>
+            <h3 style="margin-top: 16px;">Cobertura completa por pueblo y comisaría, sin mezclar viajes vecinos</h3>
+            <p>
+              Integramos los 119 municipios y más de 1,225 localidades de Campeche y Yucatán. Si pides un mototaxi en Bécal, no les suena por error a los de Tepakán, Calkiní o Halachó: solo alerta a las unidades activas en tu pueblo y les muestra a cuántos metros estás.
+            </p>
+          </div>
+          <div class="town-pills" aria-hidden="true">
+            <span class="town-pill">Bécal</span>
+            <span class="town-pill">Halachó</span>
+            <span class="town-pill">Calkiní</span>
+            <span class="town-pill">Tepakán</span>
+            <span class="town-pill">Dzitbalché</span>
+            <span class="town-pill">Maxcanú</span>
+            <span class="town-pill">Hecelchakán</span>
+            <span class="town-pill">Mérida y +1,200</span>
+          </div>
+        </article>
+
+        <article class="bento-card featured-warm">
+          <div>
+            <div class="bento-top">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <span class="bento-tag">Para familiares</span>
+            </div>
+            <h3 style="margin-top: 16px;">Pide mototaxi para tu mamá o tía desde donde estés</h3>
+            <p>
+              Elige <strong>Para otra persona</strong>, escribe su nombre y marca su casa en el mapa o con referencias. El mototaxista sabrá exactamente por quién preguntar y tú podrás enviarle a tu familiar la placa y el PIN con un solo botón.
+            </p>
+          </div>
+        </article>
+
+        <article class="bento-card">
+          <div>
+            <div class="bento-top">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                  <circle cx="8.5" cy="12" r="1.5"></circle>
+                  <path d="M13 10h5"></path>
+                  <path d="M13 14h4"></path>
+                </svg>
+              </div>
+              <span class="bento-tag">Confianza</span>
+            </div>
+            <h3 style="margin-top: 14px;">Matrícula validada por administración</h3>
+            <p>
+              Cada operador sube fotografía real de su placa física para validación administrativa antes de ser aprobado. Al aceptar tu viaje, recibes su placa oficial verificada en pantalla.
+            </p>
+          </div>
+        </article>
+
+        <article class="bento-card">
+          <div>
+            <div class="bento-top">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                  <line x1="8" y1="2" x2="8" y2="18"></line>
+                  <line x1="16" y1="6" x2="16" y2="22"></line>
+                </svg>
+              </div>
+              <span class="bento-tag">Precisión</span>
+            </div>
+            <h3 style="margin-top: 14px;">Mapa interactivo y lugares frecuentes</h3>
+            <p>
+              Desliza el mapa hasta fijar tu esquina exacta cuando una calle no tiene número, o guarda <strong>Casa</strong> y <strong>Mercado</strong> para pedir en un toque.
+            </p>
+          </div>
+        </article>
+
+        <article class="bento-card">
+          <div>
+            <div class="bento-top">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <span class="bento-tag">24 horas</span>
+            </div>
+            <h3 style="margin-top: 14px;">Recuperación de objetos olvidados</h3>
+            <p>
+              ¿Se quedó una bolsa o llaves al bajar? Durante las siguientes 24 horas puedes abrir desde tu historial un chat privado directo con tu conductor.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guía Visual Paso a Paso -->
+  <section class="section" id="guia-uso">
+    <div class="container">
+      <div class="section-head centered">
+        <span class="kicker">Guía visual</span>
+        <h2>Conoce la aplicación por dentro antes de instalarla</h2>
+        <p>Selecciona tu perfil para recorrer las pantallas reales. Puedes tocar cualquier teléfono para ampliar la imagen.</p>
+      </div>
+
+      <div class="segmented-wrap">
+        <div class="segmented-control" role="tablist" aria-label="Elegir guía de uso">
+          <button
+            type="button"
+            class="role-tab-btn active-pax"
+            id="tabBtnPax"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panelPax"
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Guía para Pasajero</span>
+          </button>
+          <button
+            type="button"
+            class="role-tab-btn"
+            id="tabBtnDrv"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panelDrv"
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="6" cy="18" r="2.5"></circle>
+              <circle cx="18" cy="18" r="2.5"></circle>
+              <path d="M4 15h15l-2.5-7H9L6.5 12H4z"></path>
+            </svg>
+            <span>Guía para Mototaxista</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PANEL PASAJERO -->
+      <div class="guide-panel active" id="panelPax" role="tabpanel" aria-labelledby="tabBtnPax">
+        <article class="guide-row">
+          <div
+            class="phone-frame"
+            data-zoom-src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/pax-ubicacion.jpg"
+            data-zoom-caption="Pasajero · Opción 1: Pedir usando «Mi ubicación» o tus lugares guardados"
+          >
+            <img
+              src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/pax-ubicacion.jpg"
+              alt="Captura de Mototaxi Pasajero usando el botón Mi Ubicación"
+              loading="lazy"
+            />
+            <span class="zoom-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Ampliar
+            </span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step-meta">
+              <span class="guide-step-index mono">01</span>
+              <span class="guide-step-label">Ubicación automática</span>
+            </div>
+            <h3>Pide desde donde estás con «Mi ubicación»</h3>
+            <p>La opción más rápida cuando quieres que pasen por ti exactamente en el punto donde te encuentras:</p>
+            <ul class="guide-points">
+              <li><span class="point-dot">1</span><span>Verifica arriba tu localidad (se ajusta sola por GPS o puedes cambiarla en un toque) y consulta cuántas unidades hay libres.</span></li>
+              <li><span class="point-dot">2</span><span>Toca <strong>MI UBICACIÓN</strong> para fijar tu calle exacta, o elige uno de tus accesos rápidos guardados como <strong>Casa</strong> o <strong>Mercado</strong>.</span></li>
+              <li><span class="point-dot">3</span><span>Indica cuántos pasajeros viajan y presiona <strong>PEDIR MOTOTAXI</strong>.</span></li>
+            </ul>
+            <div class="guide-tip">
+              <strong>Consejo útil:</strong> guarda tu casa o centro de trabajo una sola vez con <em>Guardar lugar</em> para pedir en segundos los demás días.
+            </div>
+          </div>
+        </article>
+
+        <article class="guide-row">
+          <div
+            class="phone-frame"
+            data-zoom-src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/pax-mapa.jpg"
+            data-zoom-caption="Pasajero · Opción 2: Arrastrar el mapa para marcar una esquina exacta"
+          >
+            <img
+              src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/pax-mapa.jpg"
+              alt="Captura de Mototaxi Pasajero eligiendo el punto en el mapa"
+              loading="lazy"
+            />
+            <span class="zoom-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Ampliar
+            </span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step-meta">
+              <span class="guide-step-index mono">02</span>
+              <span class="guide-step-label">Mapa interactivo</span>
+            </div>
+            <h3>Fija la esquina exacta con «Elegir en mapa»</h3>
+            <p>Muy práctico en calles sin numeración visible, parques, escuelas o cuando pides unidad para la casa de un familiar:</p>
+            <ul class="guide-points">
+              <li><span class="point-dot">1</span><span>Toca <strong>ELEGIR EN MAPA</strong> debajo del campo de recogida.</span></li>
+              <li><span class="point-dot">2</span><span>Desliza el mapa hasta colocar el marcador <strong>Aquí me recogen</strong> en la puerta o esquina correcta.</span></li>
+              <li><span class="point-dot">3</span><span>Agrega si gustas un detalle visual (ej. <em>portón blanco junto a la tienda</em>) y confirma el punto.</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="guide-row">
+          <div
+            class="phone-frame"
+            data-zoom-src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/pax-texto.jpg"
+            data-zoom-caption="Pasajero · Opción 3: Escribir referencias conocidas con tus propias palabras"
+          >
+            <img
+              src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/pax-texto.jpg"
+              alt="Captura de Mototaxi Pasajero ingresando referencia escrita"
+              loading="lazy"
+            />
+            <span class="zoom-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Ampliar
+            </span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step-meta">
+              <span class="guide-step-index mono">03</span>
+              <span class="guide-step-label">Referencias locales</span>
+            </div>
+            <h3>Escribe con referencias cotidianas o pide un mandado</h3>
+            <p>Si prefieres no encender el GPS, puedes escribir la dirección tal como se conoce en tu comunidad:</p>
+            <ul class="guide-points">
+              <li><span class="point-dot">1</span><span>Escribe en <strong>¿Dónde te recogemos?</strong> una referencia clara: <em>"Casa amarilla frente a la panadería La Espiga"</em>.</span></li>
+              <li><span class="point-dot">2</span><span>¿Necesitas compras o recoger un encargo? Cambia arriba a <strong>Mandado</strong>, escribe tu lista y la dirección de entrega.</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="guide-row">
+          <div
+            class="phone-frame"
+            data-zoom-src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/pax-tu-mototaxi.jpg"
+            data-zoom-caption="Pasajero · Unidad asignada con placa verificada y código PIN de 4 números"
+          >
+            <img
+              src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/pax-tu-mototaxi.jpg"
+              alt="Captura de Mototaxi asignado con código PIN y placa verificada"
+              loading="lazy"
+            />
+            <span class="zoom-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Ampliar
+            </span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step-meta">
+              <span class="guide-step-index mono">04</span>
+              <span class="guide-step-label gold">Seguridad al abordar</span>
+            </div>
+            <h3>Confirma la placa y dicta tu código PIN al subir</h3>
+            <p>Cuando un operador acepta tu viaje, recibes sus datos completos y seguimiento en vivo:</p>
+            <ul class="guide-points">
+              <li><span class="point-dot">1</span><span>Consulta nombre, calificación y la tarjeta gráfica de su matrícula validada por administración (puedes tocarla para verla en grande).</span></li>
+              <li><span class="point-dot">2</span><span>La app te avisará cuando la moto esté afuera. Al abordar, dicta tu <strong>PIN de 4 dígitos</strong> para iniciar el recorrido.</span></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <!-- PANEL CONDUCTOR -->
+      <div class="guide-panel" id="panelDrv" role="tabpanel" aria-labelledby="tabBtnDrv">
+        <article class="guide-row">
+          <div
+            class="phone-frame"
+            data-zoom-src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/drv-verificacion.jpg"
+            data-zoom-caption="Conductor · Paso 1: Registro único con foto de rostro, INE y placa física"
+          >
+            <img
+              src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/drv-verificacion.jpg"
+              alt="Captura de validación documental en Mototaxi Conductor"
+              loading="lazy"
+            />
+            <span class="zoom-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Ampliar
+            </span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step-meta">
+              <span class="guide-step-index mono">01</span>
+              <span class="guide-step-label gold">Activación única</span>
+            </div>
+            <h3>Valida tu identidad y la placa de tu unidad</h3>
+            <p>Para respaldar a los operadores formales y dar confianza a las familias, la primera vez completas tu expediente desde el celular:</p>
+            <ul class="guide-points">
+              <li><span class="point-dot">1</span><span>Sube una fotografía clara de tu rostro descubierto.</span></li>
+              <li><span class="point-dot">2</span><span>Captura ambos lados de tu INE (resguardada en privado; nunca es visible para pasajeros).</span></li>
+              <li><span class="point-dot">3</span><span>Toma una foto legible de la placa instalada en tu mototaxi (uso exclusivo de administración) y presiona <strong>SOLICITAR VERIFICACIÓN</strong>.</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="guide-row">
+          <div
+            class="phone-frame"
+            data-zoom-src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/drv-turno.jpg"
+            data-zoom-caption="Conductor · Paso 2: Iniciar turno y elegir localidad de operación"
+          >
+            <img
+              src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/drv-turno.jpg"
+              alt="Captura de Mototaxi Conductor disponible en turno"
+              loading="lazy"
+            />
+            <span class="zoom-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Ampliar
+            </span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step-meta">
+              <span class="guide-step-index mono">02</span>
+              <span class="guide-step-label gold">Control de turno</span>
+            </div>
+            <h3>Conéctate cuando salgas a trabajar y elige tu localidad</h3>
+            <p>Trabaja a tu ritmo con herramientas pensadas para la jornada diaria:</p>
+            <ul class="guide-points">
+              <li><span class="point-dot">1</span><span>En la tarjeta superior puedes cambiar o detectar por GPS en qué pueblo estás operando hoy.</span></li>
+              <li><span class="point-dot">2</span><span>Presiona <strong>INICIAR TURNO</strong>: la pantalla permanece activa mientras tienes el panel abierto y recibes alertas con sonido si bloqueas el teléfono.</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="guide-row">
+          <div
+            class="phone-frame"
+            data-zoom-src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/drv-solicitud.jpg"
+            data-zoom-caption="Conductor · Paso 3: Solicitud entrante con distancia, referencia y mini-mapa"
+          >
+            <img
+              src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/drv-solicitud.jpg"
+              alt="Captura de solicitud entrante en Mototaxi Conductor"
+              loading="lazy"
+            />
+            <span class="zoom-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Ampliar
+            </span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step-meta">
+              <span class="guide-step-index mono">03</span>
+              <span class="guide-step-label gold">Recepción de pasaje</span>
+            </div>
+            <h3>Revisa la distancia, el mapa de calles y acepta el viaje</h3>
+            <p>Las solicitudes cercanas aparecen primero con toda la información necesaria antes de tomarlas:</p>
+            <ul class="guide-points">
+              <li><span class="point-dot">1</span><span>Identifica si es <strong>VIAJE</strong> o <strong>MANDADO</strong>, a cuántos metros está el punto y por quién preguntar.</span></li>
+              <li><span class="point-dot">2</span><span>Consulta el mini-mapa integrado y toca <strong>ACEPTAR SERVICIO</strong> para asignarte la carrera.</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="guide-row">
+          <div
+            class="phone-frame"
+            data-zoom-src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/drv-en-servicio.jpg"
+            data-zoom-caption="Conductor · Paso 4: Avisar llegada afuera, validar PIN y concluir"
+          >
+            <img
+              src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/screenshots/drv-en-servicio.jpg"
+              alt="Captura de ingreso de PIN en Mototaxi Conductor"
+              loading="lazy"
+            />
+            <span class="zoom-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              Ampliar
+            </span>
+          </div>
+          <div class="guide-content">
+            <div class="guide-step-meta">
+              <span class="guide-step-index mono">04</span>
+              <span class="guide-step-label gold">Inicio y cierre</span>
+            </div>
+            <h3>Notifica tu llegada, ingresa el PIN y vuelve a estar libre</h3>
+            <p>Mientras llevas un servicio activo no te interrumpen otras alertas hasta que terminas:</p>
+            <ul class="guide-points">
+              <li><span class="point-dot">1</span><span>Al llegar afuera toca <strong>YA LLEGUÉ AL PUNTO</strong> para avisar al pasajero o escríbale por el chat integrado.</span></li>
+              <li><span class="point-dot">2</span><span>Ingresa los 4 dígitos del PIN al abordar y toca <strong>TERMINÉ EL SERVICIO</strong> al llegar al destino para quedar disponible de nuevo.</span></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instalación en Android -->
+  <section class="section section-tinted" id="como-instalar">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">Instalación directa</span>
+        <h2>Cómo instalar Mototaxi en tu teléfono Android</h2>
+        <p>El proceso toma menos de un minuto y no requiere cuenta de tarjeta ni suscripciones.</p>
+      </div>
+
+      <div class="apk-explainer">
+        <div class="apk-explainer-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <div>
+          <strong>¿Por qué Android muestra un aviso al instalar desde el navegador?</strong>
+          <p>
+            Al distribuirse de forma directa desde nuestro portal oficial, Android solicita confirmar una sola vez que confías en tu navegador para abrir el instalador <code>.apk</code>. Ambos paquetes están firmados criptográficamente y libres de publicidad.
+          </p>
+        </div>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div>
+            <span class="step-num mono">Paso 01</span>
+            <h3>Descarga tu aplicación</h3>
+            <p>Elige arriba <strong>Pasajero</strong> o <strong>Conductor</strong>. Si el navegador pide confirmar la descarga, pulsa <em>Descargar de todos modos</em>.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div>
+            <span class="step-num mono">Paso 02</span>
+            <h3>Abre el instalador</h3>
+            <p>Al finalizar la descarga, tócalo desde la barra superior de notificaciones o desde la carpeta <strong>Descargas</strong> de tu celular.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div>
+            <span class="step-num mono">Paso 03</span>
+            <h3>Autoriza tu navegador</h3>
+            <p>Si Android lo solicita, entra a <strong>Configuración</strong>, activa <em>Permitir desde esta fuente</em> y regresa un paso atrás.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div>
+            <span class="step-num mono">Paso 04</span>
+            <h3>Instala y permite avisos</h3>
+            <p>Pulsa <strong>Instalar</strong>. Al abrir la app por primera vez acepta el permiso de <strong>Notificaciones</strong> para escuchar tus alertas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seguridad y Respaldo -->
+  <section class="section" id="seguridad">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">Arquitectura y privacidad</span>
+        <h2>Construida sobre infraestructura segura</h2>
+        <p>Protegemos la identidad de conductores y pasajeros con estándares modernos de cifrado y verificación.</p>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-logo" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+              <path d="M5.8 25.6L9.7 4.9c.15-.8 1.2-.98 1.6-.27l4.1 7.3L5.8 25.6z" fill="#FFA000"/>
+              <path d="M5.8 25.6l5.9-14.5 4.8 9.1-10.7 5.4z" fill="#F57C00"/>
+              <path d="M26.2 25.6L22.9 8.7c-.15-.78-1.15-.98-1.58-.31L5.8 25.6l9.1 5.1c.68.38 1.52.38 2.2 0l9.1-5.1z" fill="#FFCA28"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Google Firebase</h3>
+            <p>Autenticación cifrada y sincronización en tiempo real sobre servidores de Google Cloud con reglas estrictas de acceso por cuenta y localidad.</p>
+          </div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-logo" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+              <path d="M22.9 21.5h.3c1.9 0 3.5-1.5 3.5-3.4 0-1.7-1.2-3.1-2.9-3.3-.4-3.3-3.2-5.8-6.6-5.8-3.1 0-5.7 2.1-6.4 5-.4-.1-.8-.2-1.2-.2-2.4 0-4.3 1.9-4.3 4.3 0 .5.1 1 .3 1.4h17.3z" fill="#F38020"/>
+              <path d="M25.6 15.2c-.3 0-.6 0-.9.1-.3-1.9-1.9-3.3-3.9-3.3-.5 0-1 .1-1.4.3l6.2 2.9z" fill="#FAAE40"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Cloudflare Edge y resguardo privado</h3>
+            <p>Las notificaciones push y la verificación documental viajan protegidas por Cloudflare. Las identificaciones INE jamás quedan expuestas públicamente.</p>
+          </div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-logo" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+              <path d="M18.6 3L6 15.6l3.9 3.9L26.4 3h-7.8z" fill="#47C5FB"/>
+              <path d="M18.5 14.6L11.8 21.3l3.9 4 3.9-3.9 6.8-6.8h-7.9z" fill="#47C5FB"/>
+              <path d="M15.7 25.3l3 3h7.7l-6.8-6.9-3.9 3.9z" fill="#00569E"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Rendimiento nativo con Flutter</h3>
+            <p>Interfaz ligera y fluida diseñada para responder rápido, ahorrar batería y operar de forma confiable incluso con señal móvil moderada.</p>
+          </div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-logo" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#176B5B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+          </div>
+          <div>
+            <h3>Privacidad telefónica y trato directo</h3>
+            <p>Tu número de celular nunca se muestra a la otra parte. Toda la coordinación ocurre dentro de la app y no solicitamos datos bancarios.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="signature-box">
+        <div>
+          <div class="signature-label">Huella criptográfica del instalador oficial (SHA-256)</div>
+          <div class="signature-sub">Permite comprobar que el archivo APK es auténtico y no ha sido alterado.</div>
+        </div>
+        <div class="signature-code mono">16:8A:32:F5:44:80:70:74:73:AC:82:13:CF:62:D8:92:7C:FD:50:18:14:DD:E5:6E:44:43:8C:C5:4C:D6:76:9A</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preguntas Frecuentes -->
+  <section class="section section-tinted">
+    <div class="container">
+      <div class="section-head centered">
+        <span class="kicker"> Dudas habituales </span>
+        <h2>Preguntas frecuentes</h2>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>
+            <span>¿Descargar o usar la aplicación tiene algún costo en línea?</span>
+            <span class="faq-chevron" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </summary>
+          <p>No. La descarga y el uso de la aplicación son gratuitos y en ningún momento pedimos tarjetas bancarias. El acuerdo del servicio es directo entre pasajero y mototaxista como siempre.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span>¿Funciona tanto en Campeche como en Yucatán?</span>
+            <span class="faq-chevron" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </summary>
+          <p>Sí. Incluye los municipios, cabeceras y comisarías de ambos estados (como Calkiní, Bécal, Tepakán, Dzitbalché, Halachó, Cepeda, Maxcanú, Mérida, Valladolid y más de 1,200 localidades), conectando siempre únicamente con unidades activas de tu mismo pueblo.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span>¿Cómo me entero cuando salga una actualización nueva?</span>
+            <span class="faq-chevron" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </summary>
+          <p>La propia aplicación muestra un aviso superior cuando hay una versión reciente disponible para instalarla encima en segundos sin perder tu sesión ni tus lugares guardados.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>
+            <span>Soy mototaxista, ¿qué necesito para darme de alta?</span>
+            <span class="faq-chevron" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </span>
+          </summary>
+          <p>Instala <strong>Mototaxi Conductor</strong>, regístrate eligiendo tu localidad e ingresando la matrícula de tu unidad, y sube desde la app tu foto de rostro, frente y reverso de tu INE y una foto legible de tu placa instalada. Administración revisará tus documentos y activará tu cuenta.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visor ampliable de capturas -->
+  <div class="lightbox" id="shotModal" role="dialog" aria-modal="true" aria-label="Vista ampliada de captura">
+    <div class="lightbox-inner">
+      <img id="shotModalImg" src="" alt="" />
+      <div class="lightbox-caption" id="shotModalCaption"></div>
+      <button type="button" class="lightbox-close" id="shotModalClose">Cerrar vista previa</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container footer-inner">
+      <div><strong>Mototaxi</strong> · Movilidad local verificada en Campeche y Yucatán</div>
+      <div>Respaldado con Google Firebase &amp; Cloudflare · Instaladores firmados digitalmente</div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // Menú móvil desplegable
+      var topbar = document.getElementById('topbar');
+      var menuToggle = document.getElementById('menuToggle');
+      function closeMobileMenu() {
+        if (!topbar || !menuToggle) return;
+        topbar.classList.remove('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+      if (menuToggle && topbar) {
+        menuToggle.addEventListener('click', function () {
+          var isOpen = topbar.classList.toggle('menu-open');
+          menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+      }
+      document.querySelectorAll('.mobile-nav-link').forEach(function (link) {
+        link.addEventListener('click', closeMobileMenu);
+      });
+
+      // QR dinámico + botón compartir + mostrar QR en móvil
+      var pageUrl = window.location.href.split('#')[0];
+      var qrContainer = document.getElementById('qrContainer');
+      if (qrContainer) {
+        var qrImg = document.createElement('img');
+        qrImg.alt = 'Código QR de descarga Mototaxi';
+        qrImg.loading = 'lazy';
+        qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=4&color=082C25&data=' + encodeURIComponent(pageUrl);
+        qrContainer.appendChild(qrImg);
+      }
+
+      var qrToggleBtn = document.getElementById('qrToggleBtn');
+      var sharePanel = document.getElementById('sharePanel');
+      if (qrToggleBtn && sharePanel) {
+        qrToggleBtn.addEventListener('click', function () {
+          var visible = sharePanel.classList.toggle('qr-visible');
+          qrToggleBtn.textContent = visible ? 'Ocultar QR' : 'Ver QR';
+        });
+      }
+
+      var shareBtn = document.getElementById('shareBtn');
+      var shareBtnLabel = document.getElementById('shareBtnLabel');
+      if (shareBtn) {
+        shareBtn.addEventListener('click', function () {
+          var shareData = {
+            title: 'Mototaxi Oficial (Android)',
+            text: 'Descarga aquí la app oficial de Mototaxi para Pasajero o Conductor:',
+            url: pageUrl
+          };
+          if (navigator.share) {
+            navigator.share(shareData).catch(function () {});
+          } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(pageUrl).then(function () {
+              if (shareBtnLabel) shareBtnLabel.textContent = 'Enlace copiado';
+              setTimeout(function () {
+                if (shareBtnLabel) shareBtnLabel.textContent = 'Compartir enlace';
+              }, 2400);
+            });
+          }
+        });
+      }
+
+      // Selector de guía (Pasajero vs Conductor)
+      var tabBtnPax = document.getElementById('tabBtnPax');
+      var tabBtnDrv = document.getElementById('tabBtnDrv');
+      var panelPax = document.getElementById('panelPax');
+      var panelDrv = document.getElementById('panelDrv');
+
+      function selectGuideRole(role) {
+        var isPax = role === 'pax';
+        if (!tabBtnPax || !tabBtnDrv || !panelPax || !panelDrv) return;
+        tabBtnPax.classList.toggle('active-pax', isPax);
+        tabBtnDrv.classList.toggle('active-drv', !isPax);
+        tabBtnPax.setAttribute('aria-selected', isPax ? 'true' : 'false');
+        tabBtnDrv.setAttribute('aria-selected', !isPax ? 'true' : 'false');
+        panelPax.classList.toggle('active', isPax);
+        panelDrv.classList.toggle('active', !isPax);
+      }
+
+      if (tabBtnPax && tabBtnDrv) {
+        tabBtnPax.addEventListener('click', function () { selectGuideRole('pax'); });
+        tabBtnDrv.addEventListener('click', function () { selectGuideRole('drv'); });
+      }
+
+      // Visor ampliable de capturas
+      var shotModal = document.getElementById('shotModal');
+      var shotModalImg = document.getElementById('shotModalImg');
+      var shotModalCaption = document.getElementById('shotModalCaption');
+      var shotModalClose = document.getElementById('shotModalClose');
+
+      function closeLightbox() {
+        if (!shotModal) return;
+        shotModal.classList.remove('open');
+        if (shotModalImg) shotModalImg.src = '';
+      }
+
+      document.querySelectorAll('.phone-frame[data-zoom-src]').forEach(function (frame) {
+        frame.addEventListener('click', function () {
+          if (!shotModal || !shotModalImg) return;
+          shotModalImg.src = frame.getAttribute('data-zoom-src') || '';
+          shotModalImg.alt = frame.getAttribute('data-zoom-caption') || 'Captura de pantalla';
+          if (shotModalCaption) {
+            shotModalCaption.textContent = frame.getAttribute('data-zoom-caption') || '';
+          }
+          shotModal.classList.add('open');
+        });
+      });
+
+      if (shotModalClose) shotModalClose.addEventListener('click', closeLightbox);
+      if (shotModal) {
+        shotModal.addEventListener('click', function (e) {
+          if (e.target === shotModal) closeLightbox();
+        });
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          closeLightbox();
+          closeMobileMenu();
+        }
+      });
+
+      // Sincroniza dinámicamente con app_config/releases en Firebase
+      fetch('https://firestore.googleapis.com/v1/projects/mototaxi-6b3cc/databases/(default)/documents/app_config/releases')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (doc) {
+          if (!doc || !doc.fields) return;
+          var pax = doc.fields.passenger && doc.fields.passenger.mapValue && doc.fields.passenger.mapValue.fields;
+          var drv = doc.fields.driver && doc.fields.driver.mapValue && doc.fields.driver.mapValue.fields;
+          if (pax) {
+            var pv = pax.latestVersion && pax.latestVersion.stringValue;
+            var pu = pax.apkUrl && pax.apkUrl.stringValue;
+            if (pv) document.getElementById('paxVersionBadge').textContent = 'v' + pv + ' · Oficial';
+            if (pu && pu.startsWith('https://')) document.getElementById('paxDownloadBtn').href = pu;
+          }
+          if (drv) {
+            var dv = drv.latestVersion && drv.latestVersion.stringValue;
+            var du = drv.apkUrl && drv.apkUrl.stringValue;
+            if (dv) document.getElementById('drvVersionBadge').textContent = 'v' + dv + ' · Oficial';
+            if (du && du.startsWith('https://')) document.getElementById('drvDownloadBtn').href = du;
+          }
+        })
+        .catch(function () {});
+    })();
+  </script>
+</body>
+</html>
