@@ -32,16 +32,17 @@
       --text-secondary: #4A615B;
       --text-tertiary: #6E857F;
       --border: #D9E5E0;
-      --border-strong: #C3D6CF;
+      --border-strong: #BDD2CA;
       --success: #188656;
-      --shadow-xs: 0 2px 8px rgba(8, 44, 37, 0.04);
-      --shadow-sm: 0 10px 28px rgba(8, 44, 37, 0.06);
-      --shadow-md: 0 20px 48px rgba(8, 44, 37, 0.10);
-      --shadow-lg: 0 28px 64px rgba(8, 44, 37, 0.18);
-      --radius-xl: 28px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
-      --radius-sm: 11px;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --shadow-xs: 0 1px 3px rgba(8, 44, 37, 0.04);
+      --shadow-sm: 0 6px 18px rgba(8, 44, 37, 0.05);
+      --shadow-md: 0 12px 30px rgba(8, 44, 37, 0.08);
+      --shadow-lg: 0 18px 40px rgba(8, 44, 37, 0.12);
+      --radius-xl: 24px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
     }
 
     * {
@@ -72,6 +73,14 @@
 
     button {
       font-family: inherit;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible,
+    .phone-frame:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
     }
 
     .mono {
@@ -410,60 +419,126 @@
       font-size: clamp(1rem, 1.6vw, 1.12rem);
       color: rgba(226, 241, 237, 0.88);
       max-width: 560px;
-      line-height: 1.62;
-      margin-bottom: 28px;
+      line-height: 1.6;
+      margin-bottom: 24px;
     }
 
+    /* Botones directos en el primer pantallazo (punto focal móvil) */
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      max-width: 580px;
+      margin-bottom: 24px;
+    }
+
+    .hero-dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 10px 18px 10px 12px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 0.93rem;
+      letter-spacing: -0.01em;
+      transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+    }
+
+    .hero-dl-btn img {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .hero-dl-btn.pax {
+      background: var(--accent);
+      color: #13221E;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-dl-btn.pax:hover {
+      background: #F7C463;
+      transform: translateY(-1px);
+    }
+
+    .hero-dl-btn.drv {
+      background: rgba(255, 255, 255, 0.10);
+      color: #FFFFFF;
+      border: 1px solid rgba(242, 184, 75, 0.48);
+    }
+
+    .hero-dl-btn.drv:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    .hero-dl-sub {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      opacity: 0.82;
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+    }
+
+    .hero-dl-label {
+      display: block;
+      line-height: 1.15;
+    }
+
+    /* Tira limpia sin carditis (divisores finos en vez de cajas) */
     .hero-pillars {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      gap: 16px;
       max-width: 600px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .pillar-item {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 14px;
-      padding: 12px 14px;
       display: flex;
-      flex-direction: column;
-      gap: 6px;
+      align-items: flex-start;
+      gap: 10px;
     }
 
     .pillar-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: rgba(242, 184, 75, 0.16);
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: rgba(242, 184, 75, 0.15);
       color: var(--accent);
       display: grid;
       place-items: center;
+      flex-shrink: 0;
+      margin-top: 1px;
     }
 
     .pillar-title {
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       font-weight: 700;
       color: #FFFFFF;
       line-height: 1.25;
     }
 
     .pillar-sub {
-      font-size: 0.75rem;
-      color: rgba(214, 235, 229, 0.74);
+      font-size: 0.74rem;
+      color: rgba(214, 235, 229, 0.76);
       line-height: 1.3;
+      margin-top: 2px;
     }
 
-    /* Right Hero Panel (Desktop QR + Share / Mobile Compact Share Strip) */
+    /* Right Hero Panel (Superficie tonal limpia sin abuso de blur) */
     .share-panel {
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: #0B382F;
+      border: 1px solid rgba(242, 184, 75, 0.24);
       border-radius: var(--radius-xl);
       padding: 26px 24px;
       text-align: center;
-      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 16px 36px rgba(4, 22, 18, 0.28);
     }
 
     .share-panel-eyebrow {
@@ -533,21 +608,30 @@
 
     @media (max-width: 860px) {
       .hero {
-        padding: 36px 0 68px;
+        padding: 32px 0 64px;
       }
       .hero-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 22px;
+      }
+      .hero-cta-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .hero-dl-btn {
+        justify-content: flex-start;
+        padding: 10px 12px;
+        font-size: 0.85rem;
       }
       .hero-pillars {
         grid-template-columns: 1fr;
-        gap: 8px;
+        gap: 10px;
+        padding-top: 16px;
       }
       .pillar-item {
-        flex-direction: row;
         align-items: center;
-        padding: 10px 13px;
-        gap: 12px;
+        gap: 10px;
       }
       .share-panel {
         padding: 16px;
@@ -1069,7 +1153,7 @@
       align-items: center;
       justify-content: center;
       gap: 9px;
-      transition: all 0.18s ease;
+      transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
     }
 
     .role-tab-btn.active-pax {
@@ -1102,6 +1186,18 @@
 
     .guide-panel.active {
       display: grid;
+      animation: panelReveal 0.24s var(--ease-out);
+    }
+
+    @keyframes panelReveal {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .guide-row {
@@ -1575,6 +1671,87 @@
         text-align: center;
       }
     }
+    @media (max-width: 420px) {
+      .hero-cta-group {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Barra flotante contextual en móvil (aparece al leer la guía inferior) */
+    .mobile-sticky-bar {
+      display: none;
+    }
+
+    @media (max-width: 760px) {
+      footer {
+        padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+      }
+      .mobile-sticky-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 95;
+        padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+        background: rgba(8, 44, 37, 0.95);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-top: 1px solid rgba(242, 184, 75, 0.28);
+        transform: translateY(108%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.24s var(--ease-out), opacity 0.2s var(--ease-out);
+      }
+      .mobile-sticky-bar.visible {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .sticky-dl-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        min-height: 46px;
+        padding: 8px 10px;
+        border-radius: 12px;
+        font-size: 0.82rem;
+        font-weight: 800;
+        text-align: center;
+      }
+      .sticky-dl-btn img {
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+      .sticky-dl-btn.pax {
+        background: var(--primary);
+        color: #FFFFFF;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .sticky-dl-btn.drv {
+        background: var(--accent);
+        color: #13221E;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1640,7 +1817,7 @@
         </li>
         <li>
           <a href="#novedades" class="mobile-nav-link">
-            <span>Lo nuevo en la versión 1.3</span>
+            <span>Novedades de la versión 1.4</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
           </a>
         </li>
@@ -1692,6 +1869,31 @@
         <p class="hero-lead">
           Conectamos a vecinos con mototaxistas verificados de su propia localidad para viajes diarios y mandados. Sin intermediarios, sin comisiones y sin pedir tarjetas bancarias.
         </p>
+
+        <div class="hero-cta-group">
+          <a
+            id="heroPaxBtn"
+            class="hero-dl-btn pax"
+            href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Pasajero.apk"
+          >
+            <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-pasajero.png" alt="" />
+            <span>
+              <span class="hero-dl-sub">Para vecinos y familias</span>
+              <span class="hero-dl-label">Descargar Pasajero</span>
+            </span>
+          </a>
+          <a
+            id="heroDrvBtn"
+            class="hero-dl-btn drv"
+            href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Conductor.apk"
+          >
+            <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-conductor.png" alt="" />
+            <span>
+              <span class="hero-dl-sub">Para mototaxistas</span>
+              <span class="hero-dl-label">Descargar Conductor</span>
+            </span>
+          </a>
+        </div>
 
         <div class="hero-pillars">
           <div class="pillar-item">
@@ -1888,9 +2090,9 @@
   <section class="section section-tinted" id="novedades">
     <div class="container">
       <div class="section-head">
-        <span class="kicker">Actualización 1.3</span>
+        <span class="kicker" id="whatsNewKicker">Versión 1.4 Oficial</span>
         <h2>Diseñada para cómo realmente nos movemos en nuestros pueblos</h2>
-        <p>Cada mejora nace de casos reales entre pasajeros, familias y mototaxistas de la región.</p>
+        <p>Cada mejora nace de casos reales entre pasajeros, familias y mototaxistas de la región, incluyendo reconexión automática ante cambios de señal.</p>
       </div>
 
       <div class="bento-grid">
@@ -2494,6 +2696,26 @@
     </div>
   </div>
 
+  <!-- Barra flotante contextual en móvil al recorrer la guía -->
+  <div class="mobile-sticky-bar" id="mobileStickyBar" aria-label="Descarga rápida">
+    <a
+      id="stickyPaxBtn"
+      class="sticky-dl-btn pax"
+      href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Pasajero.apk"
+    >
+      <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-pasajero.png" alt="" />
+      <span>APK Pasajero</span>
+    </a>
+    <a
+      id="stickyDrvBtn"
+      class="sticky-dl-btn drv"
+      href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Conductor.apk"
+    >
+      <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-conductor.png" alt="" />
+      <span>APK Conductor</span>
+    </a>
+  </div>
+
   <footer>
     <div class="container footer-inner">
       <div><strong>Mototaxi</strong> · Movilidad local verificada en Campeche y Yucatán</div>
@@ -2598,7 +2820,9 @@
       }
 
       document.querySelectorAll('.phone-frame[data-zoom-src]').forEach(function (frame) {
-        frame.addEventListener('click', function () {
+        frame.setAttribute('tabindex', '0');
+        frame.setAttribute('role', 'button');
+        function openFrame() {
           if (!shotModal || !shotModalImg) return;
           shotModalImg.src = frame.getAttribute('data-zoom-src') || '';
           shotModalImg.alt = frame.getAttribute('data-zoom-caption') || 'Captura de pantalla';
@@ -2606,8 +2830,27 @@
             shotModalCaption.textContent = frame.getAttribute('data-zoom-caption') || '';
           }
           shotModal.classList.add('open');
+        }
+        frame.addEventListener('click', openFrame);
+        frame.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openFrame();
+          }
         });
       });
+
+      // Barra flotante móvil al pasar la sección de tarjetas de descarga
+      var mobileStickyBar = document.getElementById('mobileStickyBar');
+      var downloadsSection = document.getElementById('descargar');
+      function updateStickyBar() {
+        if (!mobileStickyBar || !downloadsSection) return;
+        var rect = downloadsSection.getBoundingClientRect();
+        var passedCards = rect.bottom < 40;
+        mobileStickyBar.classList.toggle('visible', passedCards);
+      }
+      window.addEventListener('scroll', updateStickyBar, { passive: true });
+      updateStickyBar();
 
       if (shotModalClose) shotModalClose.addEventListener('click', closeLightbox);
       if (shotModal) {
@@ -2633,13 +2876,25 @@
             var pv = pax.latestVersion && pax.latestVersion.stringValue;
             var pu = pax.apkUrl && pax.apkUrl.stringValue;
             if (pv) document.getElementById('paxVersionBadge').textContent = 'v' + pv + ' · Oficial';
-            if (pu && pu.startsWith('https://')) document.getElementById('paxDownloadBtn').href = pu;
+            if (pu && pu.startsWith('https://')) {
+              document.getElementById('paxDownloadBtn').href = pu;
+              var hp = document.getElementById('heroPaxBtn');
+              var sp = document.getElementById('stickyPaxBtn');
+              if (hp) hp.href = pu;
+              if (sp) sp.href = pu;
+            }
           }
           if (drv) {
             var dv = drv.latestVersion && drv.latestVersion.stringValue;
             var du = drv.apkUrl && drv.apkUrl.stringValue;
             if (dv) document.getElementById('drvVersionBadge').textContent = 'v' + dv + ' · Oficial';
-            if (du && du.startsWith('https://')) document.getElementById('drvDownloadBtn').href = du;
+            if (du && du.startsWith('https://')) {
+              document.getElementById('drvDownloadBtn').href = du;
+              var hd = document.getElementById('heroDrvBtn');
+              var sd = document.getElementById('stickyDrvBtn');
+              if (hd) hd.href = du;
+              if (sd) sd.href = du;
+            }
           }
         })
         .catch(function () {});
