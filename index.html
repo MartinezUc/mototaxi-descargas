@@ -611,21 +611,21 @@
         padding: 32px 0 64px;
       }
       .hero-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 22px;
       }
       .hero-cta-group {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
       }
       .hero-dl-btn {
         justify-content: flex-start;
-        padding: 10px 12px;
-        font-size: 0.85rem;
+        padding: 11px 14px;
+        font-size: 0.88rem;
       }
       .hero-pillars {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 10px;
         padding-top: 16px;
       }
@@ -1671,9 +1671,13 @@
         text-align: center;
       }
     }
-    @media (max-width: 420px) {
+    @media (max-width: 520px) {
       .hero-cta-group {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .status-tag {
+        font-size: 0.7rem;
+        padding: 6px 11px;
       }
     }
 
