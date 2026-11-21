@@ -187,31 +187,10 @@
     }
 
     .header-actions {
-      display: flex;
+      display: none;
       align-items: center;
       gap: 8px;
       flex-shrink: 0;
-    }
-
-    .header-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: var(--accent);
-      color: #13221E;
-      font-weight: 800;
-      font-size: 0.83rem;
-      padding: 9px 15px;
-      border-radius: 999px;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-      box-shadow: 0 4px 14px rgba(242, 184, 75, 0.25);
-      transition: transform 0.15s ease, background 0.18s ease;
-    }
-
-    .header-cta:hover {
-      background: #F7C463;
-      transform: translateY(-1px);
     }
 
     .menu-toggle {
@@ -327,6 +306,9 @@
       .desktop-nav {
         display: none;
       }
+      .header-actions {
+        display: flex;
+      }
       .menu-toggle {
         display: inline-flex;
       }
@@ -334,9 +316,6 @@
 
     @media (max-width: 380px) {
       .brand-region {
-        display: none;
-      }
-      .header-cta span.cta-extra {
         display: none;
       }
     }
@@ -1681,66 +1660,133 @@
       }
     }
 
-    /* Barra flotante contextual en móvil (aparece al leer la guía inferior) */
+    /* Barra flotante contextual (entrada/salida fluida en móvil y escritorio) */
+    footer {
+      padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .sticky-rail {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 95;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+      padding: 0 16px 18px;
+    }
+
     .mobile-sticky-bar {
-      display: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: min(468px, 100%);
+      padding: 9px 10px;
+      border-radius: 18px;
+      background: rgba(8, 44, 37, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(242, 184, 75, 0.34);
+      box-shadow: 0 18px 42px rgba(5, 24, 20, 0.36);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translate3d(0, calc(100% + 28px), 0) scale(0.95);
+      will-change: transform, opacity;
+      transition:
+        transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.24s cubic-bezier(0.4, 0, 0.2, 1),
+        visibility 0s linear 0.32s;
+    }
+
+    .mobile-sticky-bar.visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translate3d(0, 0, 0) scale(1);
+      transition:
+        transform 0.46s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+        visibility 0s linear 0s;
+    }
+
+    .sticky-dl-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-align: center;
+      opacity: 0;
+      transform: translate3d(0, 8px, 0);
+      transition:
+        transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.18s var(--ease-out);
+    }
+
+    .mobile-sticky-bar.visible .sticky-dl-btn {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      transition:
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.04s,
+        opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.04s,
+        filter 0.18s var(--ease-out);
+    }
+
+    .mobile-sticky-bar.visible .sticky-dl-btn.drv {
+      transition-delay: 0.08s, 0.08s, 0s;
+    }
+
+    .sticky-dl-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .sticky-dl-btn img {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .sticky-dl-btn.pax {
+      background: var(--primary);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .sticky-dl-btn.drv {
+      background: var(--accent);
+      color: #13221E;
     }
 
     @media (max-width: 760px) {
-      footer {
-        padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+      .sticky-rail {
+        padding: 0;
       }
       .mobile-sticky-bar {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        width: 100%;
         gap: 8px;
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 95;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
         padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
-        background: rgba(8, 44, 37, 0.95);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        border-top: 1px solid rgba(242, 184, 75, 0.28);
-        transform: translateY(108%);
-        opacity: 0;
-        pointer-events: none;
-        transition: transform 0.24s var(--ease-out), opacity 0.2s var(--ease-out);
+        box-shadow: 0 -10px 28px rgba(5, 24, 20, 0.28);
+        transform: translate3d(0, 105%, 0);
       }
       .mobile-sticky-bar.visible {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
+        transform: translate3d(0, 0, 0);
       }
       .sticky-dl-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        min-height: 46px;
-        padding: 8px 10px;
-        border-radius: 12px;
         font-size: 0.82rem;
-        font-weight: 800;
-        text-align: center;
-      }
-      .sticky-dl-btn img {
-        width: 22px;
-        height: 22px;
-        border-radius: 6px;
-        object-fit: cover;
-        flex-shrink: 0;
-      }
-      .sticky-dl-btn.pax {
-        background: var(--primary);
-        color: #FFFFFF;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-      .sticky-dl-btn.drv {
-        background: var(--accent);
-        color: #13221E;
+        padding: 8px 10px;
       }
     }
 
@@ -1781,14 +1827,6 @@
       </nav>
 
       <div class="header-actions">
-        <a href="#descargar" class="header-cta">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 3v12"></path>
-            <path d="m7 10 5 5 5-5"></path>
-            <path d="M5 21h14"></path>
-          </svg>
-          <span>Descargar<span class="cta-extra"> APK</span></span>
-        </a>
         <button
           type="button"
           class="menu-toggle"
@@ -1844,20 +1882,6 @@
           </a>
         </li>
       </ul>
-      <div class="mobile-drawer-grid">
-        <a
-          href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Pasajero.apk"
-          class="drawer-dl-btn pax mobile-nav-link"
-        >
-          APK Pasajero
-        </a>
-        <a
-          href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Conductor.apk"
-          class="drawer-dl-btn drv mobile-nav-link"
-        >
-          APK Conductor
-        </a>
-      </div>
     </div>
   </header>
 
@@ -2700,24 +2724,26 @@
     </div>
   </div>
 
-  <!-- Barra flotante contextual en móvil al recorrer la guía -->
-  <div class="mobile-sticky-bar" id="mobileStickyBar" aria-label="Descarga rápida">
-    <a
-      id="stickyPaxBtn"
-      class="sticky-dl-btn pax"
-      href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Pasajero.apk"
-    >
-      <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-pasajero.png" alt="" />
-      <span>APK Pasajero</span>
-    </a>
-    <a
-      id="stickyDrvBtn"
-      class="sticky-dl-btn drv"
-      href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Conductor.apk"
-    >
-      <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-conductor.png" alt="" />
-      <span>APK Conductor</span>
-    </a>
+  <!-- Barra flotante contextual al recorrer la guía inferior -->
+  <div class="sticky-rail">
+    <div class="mobile-sticky-bar" id="mobileStickyBar" aria-label="Descarga rápida" aria-hidden="true">
+      <a
+        id="stickyPaxBtn"
+        class="sticky-dl-btn pax"
+        href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Pasajero.apk"
+      >
+        <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-pasajero.png" alt="" />
+        <span>APK Pasajero</span>
+      </a>
+      <a
+        id="stickyDrvBtn"
+        class="sticky-dl-btn drv"
+        href="https://github.com/MartinezUc/mototaxi-descargas/releases/latest/download/Mototaxi-Conductor.apk"
+      >
+        <img src="https://raw.githubusercontent.com/MartinezUc/mototaxi-descargas/main/icon-conductor.png" alt="" />
+        <span>APK Conductor</span>
+      </a>
+    </div>
   </div>
 
   <footer>
@@ -2844,16 +2870,24 @@
         });
       });
 
-      // Barra flotante móvil al pasar la sección de tarjetas de descarga
+      // Barra flotante al pasar la sección de tarjetas de descarga (60fps con rAF)
       var mobileStickyBar = document.getElementById('mobileStickyBar');
       var downloadsSection = document.getElementById('descargar');
+      var stickyTicking = false;
       function updateStickyBar() {
+        stickyTicking = false;
         if (!mobileStickyBar || !downloadsSection) return;
         var rect = downloadsSection.getBoundingClientRect();
-        var passedCards = rect.bottom < 40;
+        var passedCards = rect.bottom < 32;
         mobileStickyBar.classList.toggle('visible', passedCards);
+        mobileStickyBar.setAttribute('aria-hidden', passedCards ? 'false' : 'true');
       }
-      window.addEventListener('scroll', updateStickyBar, { passive: true });
+      window.addEventListener('scroll', function () {
+        if (!stickyTicking) {
+          stickyTicking = true;
+          window.requestAnimationFrame(updateStickyBar);
+        }
+      }, { passive: true });
       updateStickyBar();
 
       if (shotModalClose) shotModalClose.addEventListener('click', closeLightbox);
